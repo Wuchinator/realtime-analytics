@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package analytics;
+
+option go_package = "github.com/Wuchinator/realtime-analytics/pkg/pb/analytics";
+
+import "google/protobuf/timestamp.proto";
+
+service QueryService{
+  rpc GetEventStats(GetEventStatsRequest) returns (GetEventStatsResponse);
+  rpc GetUserActivity(GetUserActivityRequest) returns (GetUserActivityResponse);
+  rpc GetTopProducts(GetTopProductsRequest) returns (GetTopProductsResponse);
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+message GetEventStatsRequest {
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+  string event_type = 3;
+  string granularity = 4;
+}
+
+message EventStats {
+  google.protobuf.Timestamp timestamp = 1;
+  string event_type = 2;
+  int64 total_events = 3;
+  int64 unique_users = 4;
+  map<string, string> metadata = 5;
+}
+
+message GetEventStatsResponse {
+  repeated EventStats stats = 1;
+  int64 total_count = 2;
+}
+
+message GetUserActivityRequest {
+  string user_id = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+  int32 limit = 4;  // количество событий
+}
+
+message UserEvent {
+  string event_id = 1;
+  string event_type = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  string product_id = 4;
+  map<string, string> metadata = 5;
+}
+
+message GetUserActivityResponse {
+  string user_id = 1;
+  repeated UserEvent events = 2;
+  int64 total_events = 3;
+}
+
+message GetTopProductsRequest {
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+  int32 limit = 3;
+  string event_type = 4;
+}
+
+message ProductStats {
+  string product_id = 1;
+  int64 event_count = 2;
+  int64 unique_users = 3;
+  double conversion_rate = 4;
+  map<string, string> metadata = 5;
+}
+
+message GetTopProductsResponse {
+  repeated ProductStats products = 1;
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool healthy = 1;
+  string status = 2;
+  map<string, string> dependencies = 3;
+}

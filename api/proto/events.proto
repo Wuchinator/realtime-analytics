@@ -1,0 +1,66 @@
+syntax="proto3";
+
+package events;
+
+option go_package= "github.com/Wuchinator/realtime-analytics/pkg/pb/events";
+
+import "google/protobuf/timestamp.proto";
+
+service EventService {
+  rpc TrackEvent(TrackEventRequest) returns (TrackEventResponse);
+
+  rpc TrackEventBatch(TrackEventBatchRequest) returns (TrackEventBatchResponse);
+
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+
+}
+
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED=0;
+  EVENT_TYPE_PAGE_VIEW=1;
+  EVENT_TYPE_PRODUCT_VIEW=2;
+  EVENT_TYPE_ADD_TO_CART=3;
+  EVENT_TYPE_REMOVE_FROM_CART=4;
+  EVENT_TYPE_PURCHASE=5;
+  EVENT_TYPE_SEARCH=6;
+}
+
+message Event {
+  string event_id=1;
+  EventType event_type=2;
+  string user_id=3;
+  string session_id=4;
+  string product_id=5;
+  map<string, string> metadata=6;
+  google.protobuf.Timestamp timestamp=7;
+}
+
+message TrackEventRequest {
+  Event event = 1;
+}
+
+message TrackEventResponse {
+  string event_id=1;
+  string message=2;
+  bool success=3;
+}
+
+message TrackEventBatchRequest {
+  repeated Event event = 1;
+}
+
+message TrackEventBatchResponse {
+  string message = 1;
+  bool success = 2;
+  int32 processed_count = 3;
+  repeated string failed_event_ids = 4;
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool healthy = 1;
+  string status = 2;
+  map<string, string> dependencies = 3;
+}
+
