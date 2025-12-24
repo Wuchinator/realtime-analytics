@@ -12,7 +12,6 @@ service EventService {
   rpc TrackEventBatch(TrackEventBatchRequest) returns (TrackEventBatchResponse);
 
   rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
-
 }
 
 enum EventType {

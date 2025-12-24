@@ -3,10 +3,8 @@ set -e
 
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    -- Создаём расширения
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
-
     CREATE TABLE IF NOT EXISTS events (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         event_type VARCHAR(50) NOT NULL,
