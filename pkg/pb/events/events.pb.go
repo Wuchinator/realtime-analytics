@@ -281,7 +281,7 @@ func (x *TrackEventResponse) GetSuccess() bool {
 
 type TrackEventBatchRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Event         []*Event               `protobuf:"bytes,1,rep,name=event,proto3" json:"event,omitempty"`
+	Events        []*Event               `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -316,9 +316,9 @@ func (*TrackEventBatchRequest) Descriptor() ([]byte, []int) {
 	return file_events_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *TrackEventBatchRequest) GetEvent() []*Event {
+func (x *TrackEventBatchRequest) GetEvents() []*Event {
 	if x != nil {
-		return x.Event
+		return x.Events
 	}
 	return nil
 }
@@ -511,9 +511,9 @@ const file_events_proto_rawDesc = "" +
 	"\x12TrackEventResponse\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x18\n" +
-	"\asuccess\x18\x03 \x01(\bR\asuccess\"=\n" +
-	"\x16TrackEventBatchRequest\x12#\n" +
-	"\x05event\x18\x01 \x03(\v2\r.events.EventR\x05event\"\xa0\x01\n" +
+	"\asuccess\x18\x03 \x01(\bR\asuccess\"?\n" +
+	"\x16TrackEventBatchRequest\x12%\n" +
+	"\x06events\x18\x01 \x03(\v2\r.events.EventR\x06events\"\xa0\x01\n" +
 	"\x17TrackEventBatchResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\x12'\n" +
@@ -573,7 +573,7 @@ var file_events_proto_depIdxs = []int32{
 	8,  // 1: events.Event.metadata:type_name -> events.Event.MetadataEntry
 	10, // 2: events.Event.timestamp:type_name -> google.protobuf.Timestamp
 	1,  // 3: events.TrackEventRequest.event:type_name -> events.Event
-	1,  // 4: events.TrackEventBatchRequest.event:type_name -> events.Event
+	1,  // 4: events.TrackEventBatchRequest.events:type_name -> events.Event
 	9,  // 5: events.HealthCheckResponse.dependencies:type_name -> events.HealthCheckResponse.DependenciesEntry
 	2,  // 6: events.EventService.TrackEvent:input_type -> events.TrackEventRequest
 	4,  // 7: events.EventService.TrackEventBatch:input_type -> events.TrackEventBatchRequest

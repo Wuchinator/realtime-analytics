@@ -45,7 +45,7 @@ message TrackEventResponse {
 }
 
 message TrackEventBatchRequest {
-  repeated Event event = 1;
+  repeated Event events = 1;
 }
 
 message TrackEventBatchResponse {

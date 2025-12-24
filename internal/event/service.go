@@ -122,8 +122,8 @@ func (s *Service) GetByUserID(ctx context.Context, userID uuid.UUID, limit int) 
 	return events, nil
 }
 
-func (s *Service) HealthCheck(ctx context.Context) (bool, map[string]any) {
-	status := make(map[string]any)
+func (s *Service) HealthCheck(ctx context.Context) (bool, map[string]string) {
+	status := make(map[string]string)
 
 	status["postgres"] = "ok"
 

@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/Wuchinator/realtime-analytics/pkg/postgres"
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"go.uber.org/zap"
 )
@@ -21,11 +21,11 @@ type Repository interface {
 }
 
 type repository struct {
-	db     *sqlx.DB
+	db     *postgres.DB
 	logger *zap.Logger
 }
 
-func NewRepository(db *sqlx.DB, logger *zap.Logger) Repository {
+func NewRepository(db *postgres.DB, logger *zap.Logger) Repository {
 	return &repository{
 		db:     db,
 		logger: logger,
@@ -56,7 +56,7 @@ func (r *repository) Create(ctx context.Context, event *Event) error {
 
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
-			if pqErr.Code == "23505" { // unique_violation
+			if pqErr.Code == "23505" {
 				r.logger.Warn("Duplicate event ignored",
 					zap.String("event_id", event.ID.String()),
 				)
