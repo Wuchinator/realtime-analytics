@@ -13,6 +13,7 @@ type KafkaProducer interface {
 	SendMessage(ctx context.Context, key string, value any) error
 	SendMessageBatch(ctx context.Context, messages map[string]any) error
 }
+
 type Service struct {
 	repo     Repository
 	producer KafkaProducer
