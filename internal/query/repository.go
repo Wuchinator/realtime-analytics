@@ -16,7 +16,7 @@ type repository struct {
 	logger *zap.Logger
 }
 
-func newEventRepository(db *sqlx.DB, logger *zap.Logger) EventRepository {
+func NewEventRepository(db *sqlx.DB, logger *zap.Logger) EventRepository {
 	return &repository{
 		db:     db,
 		logger: logger,

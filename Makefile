@@ -1,5 +1,4 @@
-.PHONY: proto clean docker-up docker-down
-
+.PHONY: proto clean docker-up docker-down help
 
 PROTO_DIR = api/proto
 PROTO_OUT_DIR = pkg/pb
@@ -7,15 +6,15 @@ PROTO_OUT_DIR = pkg/pb
 proto:
 	@mkdir -p $(PROTO_OUT_DIR)/events
 	@mkdir -p $(PROTO_OUT_DIR)/analytics
-
+	
 	protoc --go_out=$(PROTO_OUT_DIR)/events --go_opt=paths=source_relative \
 		--go-grpc_out=$(PROTO_OUT_DIR)/events --go-grpc_opt=paths=source_relative \
 		-I=$(PROTO_DIR) $(PROTO_DIR)/events.proto
-
+	
 	protoc --go_out=$(PROTO_OUT_DIR)/analytics --go_opt=paths=source_relative \
 		--go-grpc_out=$(PROTO_OUT_DIR)/analytics --go-grpc_opt=paths=source_relative \
 		-I=$(PROTO_DIR) $(PROTO_DIR)/analytics.proto
-
+	
 
 docker-up:
 	docker-compose up -d
@@ -37,11 +36,18 @@ run-analytics-service:
 run-query-service:
 	go run cmd/query-service/main.go
 
-test:
-	go test -v -race ./...
+
+run-all:
+	@make docker-up
+	@sleep 5
+	@go run cmd/event-service/main.go > logs/event-service.log 2>&1 &
+	@go run cmd/analytics-service/main.go > logs/analytics-service.log 2>&1 &
+	@go run cmd/query-service/main.go > logs/query-service.log 2>&1 &
+
 
 lint:
 	golangci-lint run
+
 
 clean:
 	rm -rf $(PROTO_OUT_DIR)
