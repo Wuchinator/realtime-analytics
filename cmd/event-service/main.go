@@ -90,7 +90,7 @@ func main() {
 	// Reflection для grpcurl и подобных инструментов
 	reflection.Register(grpcServer)
 
-	listener, err := net.Listen("tcp", ":"+cfg.GRPCPort)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":"+cfg.GRPCPort))
 
 	if err != nil {
 		log.Fatal("Error initializing gRPC listener", zap.Error(err))
